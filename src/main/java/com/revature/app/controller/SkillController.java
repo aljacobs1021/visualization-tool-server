@@ -64,6 +64,14 @@ public class SkillController {
 		}
 	}
 	
+	//this will set the id foriegn key in the skill table to the primary key of categrory in the category tabloe
+	//params {String name: "angular", category:{ id: 1, categoryName: "front end",categoryDescription:"front end techs" }}
+	
+	
+	//no id no , no categoryName, no categoryDescription 
+	//String name: "angular", category:{ id: "", categoryName: "",categoryDescription:"" }
+	//then set the id foreign key of category in skill table to null
+	
 	@PostMapping(path="skill")
 	public Object addSkills(@RequestBody SkillDTO skillDTO) {
 		Skill skill = null;
@@ -76,6 +84,9 @@ public class SkillController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
+	
+	//must have category id in the category object in side skillDTO
+	//or there will be no link to the specific category in the category table
 	
 	@PutMapping(path="skill/{id}")
 	public Object updateSkill(@PathVariable("id") String skillID, @RequestBody SkillDTO skillDTO) {

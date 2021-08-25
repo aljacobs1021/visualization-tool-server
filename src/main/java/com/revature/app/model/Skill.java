@@ -32,7 +32,7 @@ public class Skill {
 	private String skillName;
 	
 	@ManyToOne
-	@JoinColumn(name = "category_id", nullable = false)
+	@JoinColumn(name = "category_id", nullable = true)
 	private Category category;
 	
 	public Skill(SkillDTO skillDTO) {

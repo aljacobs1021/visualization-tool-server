@@ -8,7 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class CurriculaVisualizationToolApplicationTests {
+class CategorySkillsToolApplicationTests {
 
 	@Test
 	void contextLoads() {

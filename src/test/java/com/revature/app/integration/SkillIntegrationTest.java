@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.app.dao.SkillDAO;
 import com.revature.app.dto.SkillDTO;
 import com.revature.app.model.Category;
-import com.revature.app.model.Curriculum;
+
 import com.revature.app.model.Skill;
 import com.revature.app.service.SkillService;
 
@@ -317,33 +317,33 @@ class SkillIntegrationTest {
 			.andExpect(MockMvcResultMatchers.status().is(400));
 	}
 	
-	@Test
-	@Order(50)
-	void test_deleteSkill_foreignKeyFailure() throws Exception {
-		Session session = em.unwrap(Session.class);
-		
-		//Add a new skill to the database directly that will fail to be deleted in the test
-		Skill testSkill = new Skill(0, "TestForeignSkill", session.get(Category.class, 1));
-		em.getTransaction().begin();
-		em.persist(testSkill);
-		em.getTransaction().commit();
-		
-		//Add a curriculum that holds the skill
-		ArrayList<Skill> skillList = new ArrayList<Skill>();
-		skillList.add(session.get(Skill.class, 2));
-		Curriculum testCurr = new Curriculum(0, "TestCurr", skillList);
-		em.getTransaction().begin();
-		em.persist(testCurr);
-		em.getTransaction().commit();
-		
-		//Print out the category and skill as a sanity check
-		System.out.println(session.get(Skill.class, 2));
-		System.out.println(session.get(Curriculum.class, 1));
-		
-		//Now to test the method
-		this.mockMvc.perform(delete("/skill/2")).andExpect(MockMvcResultMatchers.status().is(400));
-
-	}
-	
+//	@Test
+//	@Order(50)
+//	void test_deleteSkill_foreignKeyFailure() throws Exception {
+//		Session session = em.unwrap(Session.class);
+//		
+//		//Add a new skill to the database directly that will fail to be deleted in the test
+//		Skill testSkill = new Skill(0, "TestForeignSkill", session.get(Category.class, 1));
+//		em.getTransaction().begin();
+//		em.persist(testSkill);
+//		em.getTransaction().commit();
+//		
+//		//Add a curriculum that holds the skill
+//		ArrayList<Skill> skillList = new ArrayList<Skill>();
+//		skillList.add(session.get(Skill.class, 2));
+//		Curriculum testCurr = new Curriculum(0, "TestCurr", skillList);
+//		em.getTransaction().begin();
+//		em.persist(testCurr);
+//		em.getTransaction().commit();
+//		
+//		//Print out the category and skill as a sanity check
+//		System.out.println(session.get(Skill.class, 2));
+//		System.out.println(session.get(Curriculum.class, 1));
+//		
+//		//Now to test the method
+//		this.mockMvc.perform(delete("/skill/2")).andExpect(MockMvcResultMatchers.status().is(400));
+//
+//	}
+//	
 
 }

@@ -1,0 +1,6 @@
+2021-08-25 13:48:20 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CATEGORIESSKILLS" not found; SQL statement:
+SELECT * FROM CATEGORIESSKILLS [42102-200]
+2021-08-25 13:56:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM SKILLS SKILLS CATEGORIES[*] CATEGORIES"; SQL statement:
+SELECT * FROM SKILLS SKILLS CATEGORIES CATEGORIES [42000-200]

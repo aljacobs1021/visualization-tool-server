@@ -11,10 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.revature.app.dao")
 @SpringBootApplication
 @EntityScan("com.revature.app.model")
-public class CurriculaVisualizationToolApplication {
+public class CategorySkillsToolApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CurriculaVisualizationToolApplication.class, args);
+		SpringApplication.run(CategorySkillsToolApplication.class, args);
 	}
 
 }
