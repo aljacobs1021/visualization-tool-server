@@ -31,5 +31,9 @@ public class Category {
 	
 	@Column(name = "category_description")
 	private String categoryDescription;
-	
+	public Category(String name, String des) {
+		super();
+		this.categoryName = name;
+		this.categoryDescription = des;
+	}
 }

@@ -1,5 +1,6 @@
 package com.revature.app.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,8 +32,8 @@ public class Skill {
 	@Column(name = "skill_name")
 	private String skillName;
 	
-	@ManyToOne
-	@JoinColumn(name = "category_id", nullable = false)
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "category_id", nullable = true)
 	private Category category;
 	
 	public Skill(SkillDTO skillDTO) {

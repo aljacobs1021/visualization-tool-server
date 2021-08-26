@@ -9,11 +9,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.revature.app.dao.SkillDAO;
+import com.revature.app.dto.CategoryDTO;
 import com.revature.app.dto.SkillDTO;
 import com.revature.app.exception.BadParameterException;
 import com.revature.app.exception.EmptyParameterException;
 import com.revature.app.exception.ForeignKeyConstraintException;
 import com.revature.app.exception.SkillNotFoundException;
+import com.revature.app.model.Category;
 import com.revature.app.model.Skill;
 
 @Service
@@ -52,6 +54,14 @@ public class SkillService {
 	@Transactional
 	public Skill addSkill(SkillDTO skillDTO) throws EmptyParameterException {
 		Skill skill = null;
+		
+		Category c = null;
+		
+		if (skillDTO.getCategory() == null) {
+			skillDTO.setCategory(c);
+		}
+		
+		
 		if(skillDTO.getName().trim().equals("")) {
 			throw new EmptyParameterException("The skill name was left blank");
 		}
