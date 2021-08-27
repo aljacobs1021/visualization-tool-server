@@ -53,9 +53,9 @@ public class Skill {
 		
 		
 		if(skillDTO.getCategory().getCategoryId()!= 0) {
-			this.category = null;
+			this.category = skillDTO.getCategory();
 		}else {
-				this.category = skillDTO.getCategory();
+				this.category = null;
 		}
 		
 //		if(skillDTO.getCurriculumListl() ==null) {
