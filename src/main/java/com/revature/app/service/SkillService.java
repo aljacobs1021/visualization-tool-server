@@ -16,10 +16,15 @@ import com.revature.app.exception.ForeignKeyConstraintException;
 import com.revature.app.exception.SkillNotFoundException;
 import com.revature.app.model.Skill;
 
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 @Service
+
+@NoArgsConstructor
+@AllArgsConstructor(onConstructor= @__(@Autowired))
 public class SkillService {
 
-	@Autowired
+
 	private SkillDAO skillDAO;
 
 	@Transactional
@@ -27,15 +32,15 @@ public class SkillService {
 		return skillDAO.findAll();
 	}
 	
-	String badParam = "The skill ID provided must be of type int";
-	String emptyParam = "The skill ID was left blank";
+
+
 	
 	@Transactional(rollbackOn = {SkillNotFoundException.class})
 	public Skill getSkillByID(String skillID) throws BadParameterException, EmptyParameterException, SkillNotFoundException {
 		Skill skill = null;
 		try {
 			if(skillID.trim().equals("")){
-				throw new EmptyParameterException(emptyParam);
+				throw new EmptyParameterException("The skill ID was left blank");
 			}
 			int id = Integer.parseInt(skillID);
 			skill = skillDAO.findById(id);
@@ -45,7 +50,7 @@ public class SkillService {
 				return skill;
 			}
 		} catch (NumberFormatException e) {
-			throw new BadParameterException(badParam);
+			throw new BadParameterException("The skill ID provided must be of type int");
 		}
 	}
 	
@@ -56,6 +61,10 @@ public class SkillService {
 			throw new EmptyParameterException("The skill name was left blank");
 		}
 		skill = new Skill(skillDTO);
+		//set null for category in the skill controller;
+		//if null is found here set category null
+		//set category here will work 
+		
 		skill = skillDAO.save(skill);
 		return skill;
 	}
@@ -65,7 +74,7 @@ public class SkillService {
 		Skill skill = null;
 		try {
 			if(skillID.trim().equals("")){
-				throw new EmptyParameterException(emptyParam);
+				throw new EmptyParameterException("The skill ID was left blank");
 			}
 			if(upSkill.getName().trim().equals("")){
 				throw new EmptyParameterException("The skill name was left blank");
@@ -80,7 +89,7 @@ public class SkillService {
 			}
 			return skill;
 		} catch (NumberFormatException e) {
-			throw new BadParameterException(badParam);
+			throw new BadParameterException("The skill ID provided must be of type int");
 		}
 	}
 
@@ -89,7 +98,7 @@ public class SkillService {
 		Skill skill = null;
 		try {
 			if(skillID.trim().equals("")){
-				throw new EmptyParameterException(emptyParam);
+				throw new EmptyParameterException("The skill ID was left blank");
 			}
 			int id = Integer.parseInt(skillID);
 			skill = skillDAO.findById(id);
@@ -101,7 +110,7 @@ public class SkillService {
 			}
 			return skill;
 		} catch (NumberFormatException e) {
-			throw new BadParameterException(badParam);
+			throw new BadParameterException("The skill ID provided must be of type int");
 		} catch (DataIntegrityViolationException e) {
 			throw new ForeignKeyConstraintException("Please remove this skill from all curricula before attempting to delete this skill");
 		}

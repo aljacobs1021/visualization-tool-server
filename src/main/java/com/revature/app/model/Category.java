@@ -31,5 +31,11 @@ public class Category {
 	
 	@Column(name = "category_description")
 	private String categoryDescription;
+
+	public Category(String categoryName, String categoryDescription) {
+		super();
+		this.categoryName = categoryName;
+		this.categoryDescription = categoryDescription;
+	}
 	
 }

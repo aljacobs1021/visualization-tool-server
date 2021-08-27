@@ -1,6 +1,9 @@
 package com.revature.app.dto;
 
+import java.util.List;
+
 import com.revature.app.model.Category;
+import com.revature.app.model.Curriculum;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -14,4 +17,5 @@ public class SkillDTO {
 
 	String name;
 	Category category;
+	
 }

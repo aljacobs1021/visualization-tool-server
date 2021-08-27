@@ -2,6 +2,7 @@ package com.revature.app.controller;
 
 import java.util.List;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,9 @@ import com.revature.app.exception.BadParameterException;
 import com.revature.app.exception.EmptyParameterException;
 import com.revature.app.exception.ForeignKeyConstraintException;
 import com.revature.app.exception.SkillNotFoundException;
+import com.revature.app.model.Category;
 import com.revature.app.model.Skill;
+import com.revature.app.service.CategoryService;
 import com.revature.app.service.SkillService;
 
 @CrossOrigin(origins = "*")
@@ -31,6 +34,15 @@ public class SkillController {
 
 	@Autowired
 	private SkillService skillService;
+	
+	@Autowired
+	private CategoryService catServ;
+	
+	
+
+
+
+	
 	
 	private static Logger logger = LoggerFactory.getLogger(SkillController.class);
 	
@@ -71,7 +83,7 @@ public class SkillController {
 	//no id no , no categoryName, no categoryDescription 
 	//String name: "angular", category:{ id: "", categoryName: "",categoryDescription:"" }
 	//then set the id foreign key of category in skill table to null
-	
+	//can add skill now with linking to curicular or categrory
 	@PostMapping(path="skill")
 	public Object addSkills(@RequestBody SkillDTO skillDTO) {
 		Skill skill = null;
@@ -88,10 +100,31 @@ public class SkillController {
 	//must have category id in the category object in side skillDTO
 	//or there will be no link to the specific category in the category table
 	
+	
 	@PutMapping(path="skill/{id}")
 	public Object updateSkill(@PathVariable("id") String skillID, @RequestBody SkillDTO skillDTO) {
 		Skill skill = null;
+	
+	 ;
+		
+		int cateID =skillDTO.getCategory().getCategoryId();
+	 
+		//System.out.println(cateID);
+		//System.out.println(catServ.findCategory(cateID));
+	 	//	return ResponseEntity.status(202).body(skill);
+	 
 		try {
+		
+			//query for  cate Integer.parseInt(sgory in db
+			if(cateID!=0) {
+				
+				skillDTO.setCategory(catServ.findCategory(cateID) )	       ;
+			}else {
+				
+				skillDTO.setCategory(null);
+			}
+			
+		
 			skill = skillService.updateSkill(skillID, skillDTO);
 			String logString = String.format(goodLog, "to update a skill in the database with id %s");
 			logString = String.format(logString, skillID);

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.*;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.app.dao.CategoryDAO;
+
 import com.revature.app.dto.CategoryDTO;
 import com.revature.app.exception.BadParameterException;
 import com.revature.app.exception.CategoryBlankInputException;
@@ -17,14 +19,24 @@ import com.revature.app.exception.EmptyParameterException;
 import com.revature.app.exception.ForeignKeyConstraintException;
 import com.revature.app.model.Category;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Service
+@NoArgsConstructor
+@AllArgsConstructor(onConstructor= @__(@Autowired))
+@Getter @Setter @ToString 
 public class CategoryService {
 
-	@Autowired
+
 	private CategoryDAO categoryDAO;
 	
-	String badParam = "The category ID provided must be of type int";
-	String emptyParam = "The category ID was left blank";
+
+
 
 	@Transactional
 	public Category addCategory(CategoryDTO inputCategory) throws CategoryBlankInputException {
@@ -43,12 +55,28 @@ public class CategoryService {
 
 	}
 
+	
+	
+
+	@Transactional
+	public Category findCategory(int id) {
+		
+		Category carte = null;
+		
+		carte = categoryDAO.findById(id);
+		if ( carte!= null) {
+			
+			return carte;
+		}
+		return carte;
+	}
+	
 	@Transactional
 	public Category updateCategory(String catId, CategoryDTO inputCategory) throws BadParameterException, CategoryNotFoundException, EmptyParameterException {
 		Category categoryToUpdate = null;
 		try {
 			if(catId.trim().equals("")){
-				throw new EmptyParameterException(emptyParam);
+				throw new EmptyParameterException("The category ID was left blank");
 			}
 			if(inputCategory.getCategoryName().trim().equals("")){
 				throw new EmptyParameterException("The category name was left blank");
@@ -64,7 +92,7 @@ public class CategoryService {
 			}
 			return categoryToUpdate;
 		} catch (NumberFormatException e) {
-			throw new BadParameterException(badParam);
+			throw new BadParameterException("The category ID provided must be of type int");
 		}
 	}
 	
@@ -73,7 +101,7 @@ public class CategoryService {
 		Category categoryToDelete = null;
 		try {
 			if(catId.trim().equals("")){
-				throw new EmptyParameterException(emptyParam);
+				throw new EmptyParameterException("The category ID was left blank");
 			}
 			int id = Integer.parseInt(catId);
 			categoryToDelete = categoryDAO.findById(id);
@@ -85,11 +113,12 @@ public class CategoryService {
 			}
 			return categoryToDelete;
 		} catch (NumberFormatException e) {
-			throw new BadParameterException(badParam);
+			throw new BadParameterException("The category ID provided must be of type int");
 		} catch (DataIntegrityViolationException e) {
 			throw new ForeignKeyConstraintException("Please remove this category from all skills before attempting to delete this category");
 		}
 	}
-	
+
+
 
 }
