@@ -55,12 +55,7 @@ public class SkillService {
 	public Skill addSkill(SkillDTO skillDTO) throws EmptyParameterException {
 		Skill skill = null;
 		
-		Category c = null;
-		
-		if (skillDTO.getCategory() == null) {
-			skillDTO.setCategory(c);
-		}
-		
+
 		
 		if(skillDTO.getName().trim().equals("")) {
 			throw new EmptyParameterException("The skill name was left blank");

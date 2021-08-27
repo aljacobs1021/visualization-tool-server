@@ -32,7 +32,7 @@ public class Skill {
 	@Column(name = "skill_name")
 	private String skillName;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade= {CascadeType.DETACH, CascadeType.REMOVE})
 	@JoinColumn(name = "category_id", nullable = true)
 	private Category category;
 	

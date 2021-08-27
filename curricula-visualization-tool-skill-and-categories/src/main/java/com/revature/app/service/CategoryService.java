@@ -9,6 +9,7 @@ import org.springframework.dao.*;
 import org.springframework.stereotype.Service;
 
 import com.revature.app.dao.CategoryDAO;
+import com.revature.app.dao.SkillDAO;
 import com.revature.app.dto.CategoryDTO;
 import com.revature.app.exception.BadParameterException;
 import com.revature.app.exception.CategoryBlankInputException;
@@ -16,12 +17,15 @@ import com.revature.app.exception.CategoryNotFoundException;
 import com.revature.app.exception.EmptyParameterException;
 import com.revature.app.exception.ForeignKeyConstraintException;
 import com.revature.app.model.Category;
+import com.revature.app.model.Skill;
 
 @Service
 public class CategoryService {
 
 	@Autowired
 	private CategoryDAO categoryDAO;
+	@Autowired
+	private SkillDAO skillDAO ;
 	
 	String badParam = "The category ID provided must be of type int";
 	String emptyParam = "The category ID was left blank";
@@ -71,6 +75,7 @@ public class CategoryService {
 	@Transactional(rollbackOn = {CategoryNotFoundException.class, ForeignKeyConstraintException.class})
 	public Category deleteCategory(String catId) throws EmptyParameterException, CategoryNotFoundException, BadParameterException, ForeignKeyConstraintException {
 		Category categoryToDelete = null;
+		Skill tempSkill = null;
 		try {
 			if(catId.trim().equals("")){
 				throw new EmptyParameterException(emptyParam);
@@ -80,6 +85,16 @@ public class CategoryService {
 			if(categoryToDelete == null) {
 				throw new CategoryNotFoundException("The skill could not be deleted because it couldn't be found");
 			} else {
+				List<Skill> allSkills = skillDAO.findAll();
+				for (int i =0; i< allSkills.size(); i++) {
+					tempSkill = allSkills.get(i);
+					if (tempSkill.getCategory() != null) {
+						if(tempSkill.getCategory() == categoryToDelete) {
+							tempSkill.setCategory(null);
+							skillDAO.save(tempSkill);
+						}
+					}
+				}
 				categoryDAO.delete(categoryToDelete);
 				categoryDAO.flush();
 			}
